@@ -3,4 +3,5 @@ xrandr --output DP-2 --mode 1920x1080 --rate 240 --pos 1080x474 \
        --output DP-4 --left-of DP-2 --mode 1920x1080 --rate 120.00 --rotate left \
        --output DP-0 --right-of DP-2 --mode 1920x1080 --rate 144.00 --pos 3000x474
 
-setxkbmap -layout se
+setxkbmap -layout us -variant altgr-intl -option lv3:ralt_switch
+
