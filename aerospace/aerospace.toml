@@ -38,7 +38,7 @@ alt-v = 'split vertical'
 alt-f = 'fullscreen'
 
 alt-s = 'layout v_accordion' # 'layout stacking' in i3
-alt-w = 'layout h_accordion' # 'layout tabbed' in i3
+# alt-w = 'layout h_accordion' # 'layout tabbed' in i3
 alt-e = 'layout tiles horizontal vertical' # 'layout toggle split' in i3
 
 alt-shift-space = 'layout floating tiling' # 'floating toggle' in i3
@@ -86,12 +86,12 @@ enter = 'mode main'
 esc = 'mode main'
 
 [workspace-to-monitor-force-assignment]
-1 = ['BenQ']  
-2 = ['BenQ']  
-3 = ['BenQ']  
-4 = ['ZOWIE'] 
-5 = ['ZOWIE'] 
-6 = ['ZOWIE'] 
+1 = ['BenQ', 'HP E273q.*\(1\)']  
+2 = ['BenQ', 'HP E273q.*\(1\)']  
+3 = ['BenQ', 'HP E273q.*\(1\)']  
+4 = ['ZOWIE', 'HP E273q.*\(2\)'] 
+5 = ['ZOWIE', 'HP E273q.*\(2\)'] 
+6 = ['ZOWIE', 'HP E273q.*\(2\)'] 
 7 = 'Built-in'
 8 = 'Built-in'
 9 = 'Built-in'
