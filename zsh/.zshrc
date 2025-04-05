@@ -6,16 +6,19 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
-# Path to your oh-my-zsh installation.
+# Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+#export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+
 
 # Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
+# load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k" 
+
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -83,50 +86,64 @@ plugins=(
 	zsh-syntax-highlighting
 )
 
+
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
  if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='nvim'
  else
    export EDITOR='nvim'
  fi
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-alias single="xrandr --output DP-4 --off; xrandr --output DP-0 --off"
-# alias double="xrandr --output DP-4 --right-of DVI-D-0 --mode 1920x1080 --rate 144.00"
-# alias triple='xrandr --output DP-2 --mode 1920x1080 --rate 240; \
-#               xrandr --output DP-4 --left-of DP-2 --mode 1920x1080 --rate 120.00 --rotate left; \
-#               xrandr --output DP-0 --right-of DP-2 --mode 1920x1080 --rate 144.00;'
-
-alias triple='xrandr --output HDMI-0 --off \
-              --output DP-0 --mode 1920x1080 --pos 3000x474 --rotate normal --rate 144\
-              --output DP-1 --off \
-              --output DP-2 --mode 1920x1080 --pos 1080x474 --rotate normal --rate 240 \
-              --output DP-3 --off \
-              --output DP-4 --mode 1920x1080 --pos 0x0 --rotate left --rate 120 \
-              --output DP-5 --off \
-              --output None-1-1 --off;'
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-export BROWSER=/usr/bin/firefox
-#source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Source env variables
+source $ZSH_CUSTOM/vars.zsh
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/rahells/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+function devup() {
+  local output=$(devcontainer up --workspace-folder . | tee /dev/tty | tail -n 1)
+  if [[ $(echo "$output" | jq -r '.outcome') == "success" ]]; then
+    export DEVCONTAINER_ID=$(echo "$output" | jq -r '.containerId')
+    echo "DEVCONTAINER_ID: $DEVCONTAINER_ID"
+  else
+    echo "Failure to initialize devcontainer"
+  fi
+}
+
+function devcontainer_exec_bash() {
+  if [[ -z "$DEVCONTAINER_ID" ]]; then
+    echo "DEVCONTAINER_ID not found. Please run devup first."
+    return 1
+  fi
+
+  echo "devcontainer exec --container-id $DEVCONTAINER_ID bash"
+  devcontainer exec --container-id "$DEVCONTAINER_ID" bash
+}
+
+alias dup='devup'
+alias dsh='devcontainer_exec_bash'
 alias vim="nvim"
+#alias ldap="op item get LDAP --fields password --reveal | pbcopy"
+alias cm="/Users/rahells/scripts/fzf_cm.sh"
+
+# Uncomment on Linux workstation
+
+# alias single="xrandr --output DP-4 --off; xrandr --output DP-0 --off"
+# # alias double="xrandr --output DP-4 --right-of DVI-D-0 --mode 1920x1080 --rate 144.00"
+# # alias triple='xrandr --output DP-2 --mode 1920x1080 --rate 240; \
+# #               xrandr --output DP-4 --left-of DP-2 --mode 1920x1080 --rate 120.00 --rotate left; \
+# #               xrandr --output DP-0 --right-of DP-2 --mode 1920x1080 --rate 144.00;'
+#
+# alias triple='xrandr --output HDMI-0 --off \
+#               --output DP-0 --mode 1920x1080 --pos 3000x474 --rotate normal --rate 144\
+#               --output DP-1 --off \
+#               --output DP-2 --mode 1920x1080 --pos 1080x474 --rotate normal --rate 240 \
+#               --output DP-3 --off \
+#               --output DP-4 --mode 1920x1080 --pos 0x0 --rotate left --rate 120 \
+#               --output DP-5 --off \
+#               --output None-1-1 --off;'
