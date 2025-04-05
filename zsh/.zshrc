@@ -101,10 +101,6 @@ source $ZSH/oh-my-zsh.sh
 # Source env variables
 source $ZSH_CUSTOM/vars.zsh
 
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/rahells/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
-
 function devup() {
   local output=$(devcontainer up --workspace-folder . | tee /dev/tty | tail -n 1)
   if [[ $(echo "$output" | jq -r '.outcome') == "success" ]]; then
