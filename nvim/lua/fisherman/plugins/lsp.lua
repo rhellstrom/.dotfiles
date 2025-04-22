@@ -92,9 +92,9 @@ return {
         require("mason-lspconfig").setup({
             ensure_installed = {
                 "lua_ls",
-                "rust_analyzer",
                 "pyright",
                 "ansiblels",
+                "rust_analyzer",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
@@ -118,12 +118,28 @@ return {
                         }
                     }
                 end,
+
                 ["ansiblels"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.ansiblels.setup {
                         filetypes = {"yaml", "yml", "ansible"},
                     }
                 end,
+
+                ["rust_analyzer"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.rust_analyzer.setup({
+                        capabilities = capabilities,
+                        settings = {
+                            ["rust-analyzer"] = {
+                                check = {
+                                    command = "clippy",  -- Use Clippy for checking
+                                },
+                            },
+                        },
+                    })
+                end,
+
             }})
 
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
