@@ -2,15 +2,17 @@
 #For working with older terminals e.g RHEL7
 TERM = "xterm-256color"
 
+[keyboard]
+bindings = [{ key = "Return", mods = "Shift", chars = "\u001b\r" }]
+
 # For opening new shell in the current PWD on i3
-# [keyboard]
 # bindings = [
 #    { key = "Return", mods = "Control|Shift", action = "SpawnNewInstance" }
 # ]
 
 [window]
-opacity = 0.8
-blur = true
+#opacity = 0.8
+#blur = false
 decorations = "buttonless"
 
 option_as_alt = "Both"
@@ -22,4 +24,4 @@ y = 20
 [font]
 normal.family = "MesloLGS Nerd Font Mono"
 
-size = 17
+size = 16
